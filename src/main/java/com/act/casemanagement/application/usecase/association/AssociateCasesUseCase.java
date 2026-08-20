@@ -37,8 +37,8 @@ public class AssociateCasesUseCase {
         Case target = caseRepository.findById(cmd.targetCaseId())
                 .orElseThrow(() -> new ResourceNotFoundException("Case", cmd.targetCaseId()));
 
-        // Register the association event on the source aggregate
-        source.registerEvent(new CasesAssociated(
+        // Register the association event on the source aggregate via public method
+        source.registerDomainEvent(new CasesAssociated(
                 UUID.randomUUID(), Instant.now(),
                 cmd.sourceCaseId(), cmd.targetCaseId(),
                 cmd.relationshipType(), actor.getActorId()));

@@ -76,11 +76,11 @@ public class AddDocumentUseCase {
             String fileName,
             String fileType,
             String contentType,
-            Double sizeInMb,
+            java.math.BigDecimal sizeInMb,
             CaseDocument.DocumentType documentType,
             CaseDocument.SecurityClassification classification,
             String docVersion,
             String uploaderName,
-            byte[] content          // may be null if only registering a DMS reference
+            byte[] content
     ) {}
 }

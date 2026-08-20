@@ -102,8 +102,9 @@ class CaseTest {
 
         assertThat(c.getStatus()).isEqualTo(CaseStatus.UNASSIGNED);
         assertThat(c.getAssignedOfficerId()).isNull();
-        assertThat(c.pullEvents()).hasSize(1);
-        assertThat(c.pullEvents().get(0)).isInstanceOf(CaseDeassigned.class);
+        var events = c.pullEvents();
+        assertThat(events).hasSize(1);
+        assertThat(events.get(0)).isInstanceOf(CaseDeassigned.class);
     }
 
     // ── Notes — immutability invariant ───────────────────────────────────────

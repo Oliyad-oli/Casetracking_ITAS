@@ -6,6 +6,7 @@ import com.act.casemanagement.domain.model.*;
 import com.act.casemanagement.domain.valueobject.*;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
@@ -327,7 +328,7 @@ public class Case extends AggregateRoot {
     // ─────────────────────────────────────────────
 
     public CaseDocument addDocument(UUID docId, String name,
-            CaseDocument.DocumentType documentType, String fileType, Double sizeInMb,
+            CaseDocument.DocumentType documentType, String fileType, BigDecimal sizeInMb,
             UUID uploadedById, String uploadedByName,
             CaseDocument.SecurityClassification classification,
             String docVersion, String dmsReference) {
@@ -478,9 +479,17 @@ public class Case extends AggregateRoot {
         this.lastActivityAt      = Instant.now();
     }
 
-    // Keep the mutable internal lists accessible for persistence adapters (package-private)
-    List<CaseNote>      notesInternal()           { return notes; }
-    List<CaseDocument>  documentsInternal()       { return documents; }
-    List<ApprovalRecord> approvalRecordsInternal(){ return approvalRecords; }
-    List<TaskReminder>  taskRemindersInternal()   { return taskReminders; }
+    // Keep the mutable internal lists accessible for persistence adapters
+    public List<CaseNote>      notesInternal()           { return notes; }
+    public List<CaseDocument>  documentsInternal()       { return documents; }
+    public List<ApprovalRecord> approvalRecordsInternal(){ return approvalRecords; }
+    public List<TaskReminder>  taskRemindersInternal()   { return taskReminders; }
+
+    /**
+     * Allows use cases outside the domain package to register a domain event on this aggregate.
+     * Only events that are logically "owned" by this aggregate should use this — e.g. CasesAssociated.
+     */
+    public void registerDomainEvent(DomainEvent event) {
+        registerEvent(event);
+    }
 }

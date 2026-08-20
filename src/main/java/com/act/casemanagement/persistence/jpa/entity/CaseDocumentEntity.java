@@ -30,8 +30,8 @@ public class CaseDocumentEntity {
     @Column(name = "file_type", length = 20)
     private String fileType;
 
-    @Column(name = "size_in_mb", precision = 10, scale = 3)
-    private Double sizeInMb;
+    @Column(name = "size_in_mb")
+    private java.math.BigDecimal sizeInMb;
 
     @Column(name = "uploaded_by_id", nullable = false)
     private UUID uploadedById;

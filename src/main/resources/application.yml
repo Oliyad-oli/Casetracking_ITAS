@@ -4,6 +4,11 @@ spring:
   threads:
     virtual:
       enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 55MB
   jpa:
     hibernate:
       ddl-auto: validate
@@ -74,6 +79,11 @@ resilience4j:
         failureRateThreshold: 50
         waitDurationInOpenState: 30000
         permittedNumberOfCallsInHalfOpenState: 10
+      user-projection:
+        slidingWindowSize: 20
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+        permittedNumberOfCallsInHalfOpenState: 5
   retry:
     instances:
       notification-engine:
@@ -94,6 +104,11 @@ resilience4j:
         retryExceptions:
           - java.net.ConnectException
           - java.io.IOException
+      user-projection:
+        maxAttempts: 2
+        waitDuration: 500
+        retryExceptions:
+          - java.net.ConnectException
 
 springdoc:
   api-docs:

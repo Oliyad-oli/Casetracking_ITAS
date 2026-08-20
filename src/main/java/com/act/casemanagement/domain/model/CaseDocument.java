@@ -2,6 +2,7 @@ package com.act.casemanagement.domain.model;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -23,38 +24,39 @@ public class CaseDocument {
     private final String name;
     private final DocumentType documentType;
     private final String fileType;
-    private final Double sizeInMb;
+    private final BigDecimal sizeInMb;
     private final UUID uploadedById;
     private final String uploadedByName;
     private final Instant uploadedAt;
     private final SecurityClassification classification;
     private final String docVersion;
-    private final String dmsReference;  // reference ID in shared DMS
+    private final String dmsReference;
     private Long version;
 
     public static CaseDocument create(UUID id, UUID caseId, String name,
-            DocumentType documentType, String fileType, Double sizeInMb,
+            DocumentType documentType, String fileType, BigDecimal sizeInMb,
             UUID uploadedById, String uploadedByName, Instant uploadedAt,
             SecurityClassification classification, String docVersion,
             String dmsReference) {
         return new CaseDocument(id, caseId, name, documentType, fileType, sizeInMb,
-                uploadedById, uploadedByName, uploadedAt, classification, docVersion,
-                dmsReference, null);
+                uploadedById, uploadedByName, uploadedAt, classification,
+                docVersion, dmsReference, null);
     }
 
     public static CaseDocument reconstitute(UUID id, UUID caseId, String name,
-            DocumentType documentType, String fileType, Double sizeInMb,
+            DocumentType documentType, String fileType, BigDecimal sizeInMb,
             UUID uploadedById, String uploadedByName, Instant uploadedAt,
             SecurityClassification classification, String docVersion,
             String dmsReference, Long version) {
         return new CaseDocument(id, caseId, name, documentType, fileType, sizeInMb,
-                uploadedById, uploadedByName, uploadedAt, classification, docVersion,
-                dmsReference, version);
+                uploadedById, uploadedByName, uploadedAt, classification,
+                docVersion, dmsReference, version);
     }
 
     private CaseDocument(UUID id, UUID caseId, String name, DocumentType documentType,
-            String fileType, Double sizeInMb, UUID uploadedById, String uploadedByName,
-            Instant uploadedAt, SecurityClassification classification, String docVersion,
+            String fileType, BigDecimal sizeInMb, UUID uploadedById,
+            String uploadedByName, Instant uploadedAt,
+            SecurityClassification classification, String docVersion,
             String dmsReference, Long version) {
         this.id             = id;
         this.caseId         = caseId;
