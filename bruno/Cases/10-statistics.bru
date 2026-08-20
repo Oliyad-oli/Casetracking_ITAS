@@ -1,0 +1,16 @@
+meta {
+  name: 10 Activity Statistics
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/cases/statistics
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: {{actorRole}}
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+}

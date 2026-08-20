@@ -1,0 +1,26 @@
+meta {
+  name: 08 Process Approval
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/cases/{{caseId}}/approve
+  body: json
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: SUPERVISOR
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "action": "APPROVED",
+    "approverName": "Supervisor Mekonnen",
+    "comments": "Case reviewed and approved at supervisor level"
+  }
+}

@@ -1,0 +1,26 @@
+meta {
+  name: 05 Assign Case
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/cases/{{caseId}}/assign
+  body: json
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: {{actorRole}}
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "officerId": "00000000-0000-0000-0000-000000000002",
+    "assigningActorName": "Supervisor Mekonnen",
+    "reason": "Officer has direct audit specialization and capacity"
+  }
+}

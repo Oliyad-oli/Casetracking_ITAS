@@ -1,0 +1,16 @@
+meta {
+  name: 02 Get Case
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/cases/{{caseId}}
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: {{actorRole}}
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+}

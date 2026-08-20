@@ -1,0 +1,16 @@
+meta {
+  name: 03 Search Cases
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/cases?category=AUDIT&status=UNASSIGNED
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: {{actorRole}}
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+}

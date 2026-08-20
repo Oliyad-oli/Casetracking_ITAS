@@ -1,0 +1,16 @@
+meta {
+  name: 07 Submit For Approval
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/cases/{{caseId}}/submit-for-approval?comments=Ready+for+supervisory+review
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: TAX_OFFICER
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+}

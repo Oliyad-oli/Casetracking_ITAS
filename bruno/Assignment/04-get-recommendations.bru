@@ -1,0 +1,16 @@
+meta {
+  name: 04 Get Assignment Recommendations
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/cases/{{caseId}}/assignment-recommendations
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: {{actorRole}}
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+}

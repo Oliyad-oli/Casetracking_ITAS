@@ -1,0 +1,31 @@
+meta {
+  name: 09 Close Case
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/cases/{{caseId}}/close
+  body: json
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: {{actorRole}}
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "closureReason": "RESOLVED",
+    "outcome": "ASSESSMENT_CONFIRMED",
+    "resolutionSummary": "VAT discrepancy confirmed and assessed.",
+    "amountAssessed": 2500000,
+    "amountCollected": 2500000,
+    "amountWrittenOff": 0,
+    "refundApproved": 0,
+    "closedByName": "Supervisor Mekonnen"
+  }
+}

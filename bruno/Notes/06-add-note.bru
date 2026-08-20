@@ -1,0 +1,32 @@
+meta {
+  name: 06 Add Case Note
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/cases/{{caseId}}/notes
+  body: json
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: {{actorRole}}
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "content": "Initial taxpayer contact made. Documents requested.",
+    "eventDate": "2026-08-20",
+    "authorName": "Officer Abebe"
+  }
+}
+
+script:post-response {
+  if (res.status === 201) {
+    bru.setVar("noteId", res.body.id);
+  }
+}

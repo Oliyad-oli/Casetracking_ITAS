@@ -1,0 +1,45 @@
+meta {
+  name: 01 Create Case
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/cases
+  body: json
+  auth: none
+}
+
+headers {
+  X-Authenticated-Actor-Id: {{actorId}}
+  X-Authenticated-Role: {{actorRole}}
+  X-Authenticated-Unit-Id: {{actorUnitId}}
+  X-Correlation-Id: {{$randomUUID}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "title": "Audit Case — ABC Manufacturing PLC",
+    "category": "AUDIT",
+    "priority": "HIGH",
+    "riskLevel": "HIGH",
+    "tin": "0012345678",
+    "taxpayerName": "ABC Manufacturing PLC",
+    "entityType": "CORPORATE",
+    "createdByName": "Supervisor Mekonnen",
+    "estimatedAmountEtb": 5000000,
+    "reasons": "Discrepancy detected in VAT filings for FY2024",
+    "instructions": "Request all VAT records for FY2024",
+    "typeSpecificData": {
+      "auditPeriod": "2024-01-01/2024-12-31",
+      "auditScope": "VAT"
+    }
+  }
+}
+
+script:post-response {
+  if (res.status === 201) {
+    bru.setVar("caseId", res.body.id);
+  }
+}
