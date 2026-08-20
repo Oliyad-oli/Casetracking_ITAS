@@ -8,6 +8,7 @@ import com.act.casemanagement.domain.exception.ResourceNotFoundException;
 import com.act.casemanagement.domain.service.AutomaticTransitionService;
 import com.act.casemanagement.domain.service.AutomaticTransitionService.Trigger;
 import com.act.casemanagement.domain.valueobject.CaseStatus;
+import com.act.casemanagement.observability.audit.Auditable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public class AssignCaseUseCase {
     private final EventPublisherPort           eventPublisher;
     private final AutomaticTransitionService   transitionService;
 
+    @Auditable(action = "ASSIGN_CASE")
     @Transactional
     public Case execute(Command cmd) {
         RequestActorContext actor = RequestActorContext.current();

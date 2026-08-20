@@ -3,6 +3,7 @@ package com.act.casemanagement.application.usecase.cases;
 import com.act.casemanagement.application.context.RequestActorContext;
 import com.act.casemanagement.application.port.CaseRepositoryPort;
 import com.act.casemanagement.application.port.EventPublisherPort;
+import com.act.casemanagement.observability.audit.Auditable;
 import com.act.casemanagement.domain.aggregate.Case;
 import com.act.casemanagement.domain.exception.ForbiddenOperationException;
 import com.act.casemanagement.domain.exception.ResourceNotFoundException;
@@ -33,6 +34,7 @@ public class CloseCaseUseCase {
     private final CaseRepositoryPort caseRepository;
     private final EventPublisherPort eventPublisher;
 
+    @Auditable(action = "CLOSE_CASE")
     @Transactional
     public Case execute(Command cmd) {
         RequestActorContext actor = RequestActorContext.current();

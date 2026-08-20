@@ -2,6 +2,7 @@ package com.act.casemanagement.application.usecase.cases;
 
 import com.act.casemanagement.application.context.RequestActorContext;
 import com.act.casemanagement.application.port.*;
+import com.act.casemanagement.observability.audit.Auditable;
 import com.act.casemanagement.domain.aggregate.Case;
 import com.act.casemanagement.domain.valueobject.*;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class CreateCaseUseCase {
     private final CaseRepositoryPort  caseRepository;
     private final EventPublisherPort  eventPublisher;
 
+    @Auditable(action = "CREATE_CASE")
     @Transactional
     public Case execute(Command cmd) {
         RequestActorContext actor = RequestActorContext.current();

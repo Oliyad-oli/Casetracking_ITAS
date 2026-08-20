@@ -6,6 +6,7 @@ import com.act.casemanagement.domain.aggregate.Case;
 import com.act.casemanagement.domain.exception.ForbiddenOperationException;
 import com.act.casemanagement.domain.exception.ResourceNotFoundException;
 import com.act.casemanagement.domain.model.CaseNote;
+import com.act.casemanagement.observability.audit.Auditable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class UpdateCaseNoteUseCase {
     private final CaseRepositoryPort caseRepository;
     private final EventPublisherPort eventPublisher;
 
+    @Auditable(action = "UPDATE_CASE_NOTE")
     @Transactional
     public CaseNote execute(Command cmd) {
         RequestActorContext actor = RequestActorContext.current();

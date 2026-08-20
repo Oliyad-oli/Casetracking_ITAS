@@ -4,6 +4,7 @@ import com.act.casemanagement.application.context.RequestActorContext;
 import com.act.casemanagement.application.port.*;
 import com.act.casemanagement.domain.aggregate.Case;
 import com.act.casemanagement.domain.exception.ResourceNotFoundException;
+import com.act.casemanagement.observability.audit.Auditable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ public class DeassignCaseUseCase {
     private final CaseRepositoryPort caseRepository;
     private final EventPublisherPort eventPublisher;
 
+    @Auditable(action = "DEASSIGN_CASE")
     @Transactional
     public Case execute(Command cmd) {
         RequestActorContext actor = RequestActorContext.current();
