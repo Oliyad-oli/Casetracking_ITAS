@@ -1,0 +1,130 @@
+spring:
+  application:
+    name: case-backend-core-server
+  threads:
+    virtual:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:case_db}?stringtype=unspecified
+    username: ${DB_USER:root}
+    password: ${DB_PASS:root@1234}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+server:
+  port: ${SERVER_PORT:8082}
+  servlet:
+    context-path: /api/v1
+  error:
+    include-message: always
+    include-binding-errors: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO
+    com.act.casemanagement: DEBUG
+    org.springframework.web: INFO
+    org.springframework.data: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %X{traceId} %X{correlationId} %X{actorId} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %X{traceId} %X{correlationId} %X{actorId} - %msg%n"
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      notification-engine:
+        slidingWindowSize: 100
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30000
+        permittedNumberOfCallsInHalfOpenState: 10
+      dms:
+        slidingWindowSize: 100
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30000
+        permittedNumberOfCallsInHalfOpenState: 10
+      filing-service:
+        slidingWindowSize: 100
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30000
+        permittedNumberOfCallsInHalfOpenState: 10
+  retry:
+    instances:
+      notification-engine:
+        maxAttempts: 3
+        waitDuration: 1000
+        retryExceptions:
+          - java.net.ConnectException
+          - java.io.IOException
+      dms:
+        maxAttempts: 3
+        waitDuration: 1000
+        retryExceptions:
+          - java.net.ConnectException
+          - java.io.IOException
+      filing-service:
+        maxAttempts: 3
+        waitDuration: 1000
+        retryExceptions:
+          - java.net.ConnectException
+          - java.io.IOException
+
+springdoc:
+  api-docs:
+    path: /openapi
+  swagger-ui:
+    path: /swagger-ui.html
+    use-root-path: true
+
+# ── External integration base URLs ──
+integrations:
+  notification:
+    base-url: ${NOTIFICATION_BASE_URL:http://localhost:8090}
+    connect-timeout-ms: 5000
+    read-timeout-ms: 10000
+  dms:
+    base-url: ${DMS_BASE_URL:http://localhost:8091}
+    connect-timeout-ms: 5000
+    read-timeout-ms: 15000
+  filing-service:
+    base-url: ${FILING_BASE_URL:http://localhost:8081}
+    connect-timeout-ms: 5000
+    read-timeout-ms: 10000
+
+# ── Outbox dispatcher ──
+outbox:
+  dispatcher:
+    batch-size: 50
+    poll-interval-ms: 5000
+    max-retries: 5
+    backoff-multiplier: 2
+
+# ── Task reminder scanning ──
+task-reminder:
+  scan-interval-ms: 60000
